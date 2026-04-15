@@ -1,195 +1,266 @@
 // ============================================================
+
 // Lab W7: C++ OOP Review - Classes, Encapsulation, Strings,
+
 //         Copy Constructors, Operator Overloading
-// Course: Object-Oriented Programming
-// Duration: 40 minutes
-// ============================================================
-// SINGLE FILE IMPLEMENTATION - No header files allowed
+
 // ============================================================
 
 #include <iostream>
+
 #include <string>
+
 #include <cstring>
+
 using namespace std;
 
-// ================================
-// CLASS DEFINITIONS
-// ================================
-
-// -----------------------------------------------------------
-// Class: Student
-// Represents a university student with name, ID, and GPA.
-// This class reviews:
-//   - Encapsulation (private data, public interface)
-//   - Constructors (default, parameterized)
-//   - Destructor
-//   - Copy Constructor
-//   - Operator Overloading (<<, ==, <)
-//   - String operations
-// -----------------------------------------------------------
 class Student {
+
 private:
-    string name;
-    int id;
-    double gpa;
+
+   string name;
+
+   int id;
+
+   double gpa;
 
 public:
-    // ----- Task 1: Constructors & Destructor -----
 
-    // TODO 1a: Default constructor
-    // Set name to "Unknown", id to 0, gpa to 0.0
-    Student() {
-        // YOUR CODE HERE
-    }
+   // ----- Task 1: Constructors & Destructor -----
 
-    // TODO 1b: Parameterized constructor
-    // Initialize all three member variables from parameters
-    Student(string n, int i, double g) {
-        // YOUR CODE HERE
-    }
+   Student() {
 
-    // TODO 1c: Copy constructor
-    // Create a deep copy of another Student object
-    Student(const Student& other) {
-        // YOUR CODE HERE
-    }
+       // Initialize default values
 
-    // TODO 1d: Destructor
-    // Print: "Student [name] destroyed"
-    ~Student() {
-        // YOUR CODE HERE
-    }
+       name = "Unknown";
 
-    // ----- Task 2: Getters (Encapsulation) -----
+       id = 0;
 
-    // TODO 2a: Getter for name
-    string getName() const {
-        // YOUR CODE HERE
-        return "";
-    }
+       gpa = 0.0;
 
-    // TODO 2b: Getter for id
-    int getId() const {
-        // YOUR CODE HERE
-        return 0;
-    }
+   }
 
-    // TODO 2c: Getter for gpa
-    double getGpa() const {
-        // YOUR CODE HERE
-        return 0.0;
-    }
+   Student(string n, int i, double g) {
 
-    // ----- Task 3: Setters with Validation -----
+       // Initialize all member variables
 
-    // TODO 3a: Setter for name
-    // Name must not be empty. If empty, keep current name.
-    void setName(string n) {
-        // YOUR CODE HERE
-    }
+       name = n;
 
-    // TODO 3b: Setter for GPA
-    // GPA must be between 0.0 and 4.0 (inclusive).
-    // If out of range, keep current GPA.
-    void setGpa(double g) {
-        // YOUR CODE HERE
-    }
+       id = i;
 
-    // ----- Task 4: String Operation -----
+       gpa = g;
 
-    // TODO 4: getFormattedName()
-    // Return the name in UPPERCASE
-    // Hint: loop through each character and use toupper()
-    string getFormattedName() const {
-        // YOUR CODE HERE
-        return "";
-    }
+   }
 
-    // ----- Task 5: Operator Overloading -----
+   Student(const Student& other) {
 
-    // TODO 5a: Equality operator (==)
-    // Two students are equal if they have the same id
-    bool operator==(const Student& other) const {
-        // YOUR CODE HERE
-        return false;
-    }
+       // Copy constructor (memberwise copy is sufficient here)
 
-    // TODO 5b: Less-than operator (<)
-    // Compare by GPA (lower GPA = "less than")
-    bool operator<(const Student& other) const {
-        // YOUR CODE HERE
-        return false;
-    }
+       name = other.name;
 
-    // TODO 5c: Stream insertion operator (<<)
-    // Format: "Student(name, ID: id, GPA: gpa)"
-    // Example: "Student(Ali, ID: 101, GPA: 3.5)"
-    friend ostream& operator<<(ostream& os, const Student& s) {
-        // YOUR CODE HERE
-        return os;
-    }
+       id = other.id;
+
+       gpa = other.gpa;
+
+   }
+
+   ~Student() {
+
+       // Destructor with required format
+
+       cout << "Student " << name << " destroyed" << endl;
+
+   }
+
+   // ----- Task 2: Getters -----
+
+   string getName() const {
+
+       return name;
+
+   }
+
+   int getId() const {
+
+       return id;
+
+   }
+
+   double getGpa() const {
+
+       return gpa;
+
+   }
+
+   // ----- Task 3: Setters with Validation -----
+
+   void setName(string n) {
+
+       // Name must not be empty
+
+       if (!n.empty()) {
+
+           name = n;
+
+       }
+
+   }
+
+   void setGpa(double g) {
+
+       // GPA must be between 0.0 and 4.0 (inclusive)
+
+       if (g >= 0.0 && g <= 4.0) {
+
+           gpa = g;
+
+       }
+
+   }
+
+   // ----- Task 4: String Operation -----
+
+   string getFormattedName() const {
+
+       string upperName = name;
+
+       // Convert each character to uppercase (safe cast)
+
+       for (int i = 0; i < upperName.length(); i++) {
+
+           upperName[i] = (char)toupper(upperName[i]);
+
+       }
+
+       return upperName;
+
+   }
+
+   // ----- Task 5: Operator Overloading -----
+
+   bool operator==(const Student& other) const {
+
+       // Students are equal if IDs match
+
+       return id == other.id;
+
+   }
+
+   bool operator<(const Student& other) const {
+
+       // Compare based on GPA
+
+       return gpa < other.gpa;
+
+   }
+
+   friend ostream& operator<<(ostream& os, const Student& s) {
+
+       // Output formatted student info
+
+       os << "Student(" << s.name << ", ID: " << s.id << ", GPA: " << s.gpa << ")";
+
+       // Return stream to allow chaining
+
+       return os;
+
+   }
+
 };
 
 // ================================
-// STANDALONE FUNCTION
+
+// Function Overloading
+
 // ================================
 
-// TODO 6: Function Overloading - findBestStudent
-// Version 1: Takes two Student references, returns the one with higher GPA
 Student findBestStudent(const Student& a, const Student& b) {
-    // YOUR CODE HERE
-    return a;
+
+   // Return student with higher (or equal) GPA
+
+   if (a < b ){
+
+       return b;
+
+   }
+
+   return a ;
+
 }
 
-// Version 2: Takes an array of Students and its size, returns the one with highest GPA
 Student findBestStudent(Student arr[], int size) {
-    // YOUR CODE HERE
-    return arr[0];
+
+   // Find student with highest GPA
+
+   Student best = arr[0];
+
+   for (int i = 1; i < size; i++) {
+
+       if (arr[i].getGpa() > best.getGpa()) {
+
+           best = arr[i];
+
+       }
+
+   }
+
+   return best;
+
 }
 
 // ================================
-// MAIN FUNCTION
+
+// MAIN
+
 // ================================
+
 int main() {
-    // --- Demo: Default Constructor ---
-    Student s1;
-    cout << "Default: " << s1 << endl;
 
-    // --- Demo: Parameterized Constructor ---
-    Student s2("Ali", 101, 3.5);
-    Student s3("Ayse", 102, 3.8);
-    cout << "s2: " << s2 << endl;
-    cout << "s3: " << s3 << endl;
+   Student s1;
 
-    // --- Demo: Copy Constructor ---
-    Student s4(s2);
-    cout << "Copy of s2: " << s4 << endl;
+   cout << "Default: " << s1 << endl;
 
-    // --- Demo: Encapsulation (Getters) ---
-    cout << "s3 name: " << s3.getName() << endl;
-    cout << "s3 GPA: " << s3.getGpa() << endl;
+   Student s2("Ali", 101, 3.5);
 
-    // --- Demo: Setter Validation ---
-    s2.setGpa(5.0);  // Invalid, should not change
-    cout << "s2 after invalid setGpa(5.0): " << s2 << endl;
+   Student s3("Ayse", 102, 3.8);
 
-    s2.setGpa(3.9);  // Valid
-    cout << "s2 after valid setGpa(3.9): " << s2 << endl;
+   cout << "s2: " << s2 << endl;
 
-    // --- Demo: String Operation ---
-    cout << "Formatted: " << s3.getFormattedName() << endl;
+   cout << "s3: " << s3 << endl;
 
-    // --- Demo: Operator Overloading ---
-    cout << "s2 == s4? " << (s2 == s4 ? "Yes" : "No") << endl;
-    cout << "s2 < s3? " << (s2 < s3 ? "Yes" : "No") << endl;
+   Student s4(s2);
 
-    // --- Demo: Function Overloading ---
-    Student best2 = findBestStudent(s2, s3);
-    cout << "Best of two: " << best2 << endl;
+   cout << "Copy of s2: " << s4 << endl;
 
-    Student roster[] = {s1, s2, s3, s4};
-    Student bestAll = findBestStudent(roster, 4);
-    cout << "Best of all: " << bestAll << endl;
+   cout << "s3 name: " << s3.getName() << endl;
 
-    return 0;
+   cout << "s3 GPA: " << s3.getGpa() << endl;
+
+   s2.setGpa(5.0);
+
+   cout << "s2 after invalid setGpa(5.0): " << s2 << endl;
+
+   s2.setGpa(3.9);
+
+   cout << "s2 after valid setGpa(3.9): " << s2 << endl;
+
+   cout << "Formatted: " << s3.getFormattedName() << endl;
+
+   cout << "s2 == s4? " << (s2 == s4 ? "Yes" : "No") << endl;
+
+   cout << "s2 < s3? " << (s2 < s3 ? "Yes" : "No") << endl;
+
+   Student best2 = findBestStudent(s2, s3);
+
+   cout << "Best of two: " << best2 << endl;
+
+   Student roster[] = {s1, s2, s3, s4};
+
+   Student bestAll = findBestStudent(roster, 4);
+
+   cout << "Best of all: " << bestAll << endl;
+
+   return 0;
+
 }
+ 
